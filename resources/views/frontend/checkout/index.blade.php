@@ -37,7 +37,7 @@
         text-indent: -9999px;
         width: 10px;
         height: 10px;
-        background: #f06a25;
+        background: #4398fe;
         margin: 0 3px;
         border-radius: 5px;
         transition: all .5s ease-in-out;

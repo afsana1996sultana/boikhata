@@ -77,14 +77,14 @@
                         <div>
                             @if ($product->discount_price > 0)
                             <div>
-                                <small style="background: #F06A25;border-radius: 10px;padding: 3px 5px;font-size: 10px;">স্টকে আছে</small>
+                                <small style="background: #4398fe;border-radius: 10px;padding: 3px 5px;font-size: 10px;">স্টকে আছে</small>
                                 <div class="product-price">
                                     <span class="price"> ৳{{ formatNumberInBengali($price_after_discount) }} </span>
                                 </div>
                             </div>
                             @else
                                 <div>
-                                    <small style="background: #F06A25;border-radius: 10px;padding: 3px 5px;font-size: 10px;">স্টকে আছে</small>
+                                    <small style="background: #4398fe;border-radius: 10px;padding: 3px 5px;font-size: 10px;">স্টকে আছে</small>
                                     <div class="product-price">
                                         <span class="price"> ৳{{ formatNumberInBengali($product->regular_price) }} </span>
                                     </div>
@@ -111,14 +111,14 @@
                         <div>
                             @if ($product->discount_price > 0)
                             <div>
-                                <small style="background: #F06A25;border-radius: 10px;padding: 3px 5px;font-size: 10px;">স্টকে আছে</small>
+                                <small style="background: #4398fe;border-radius: 10px;padding: 3px 5px;font-size: 10px;">স্টকে আছে</small>
                                 <div class="product-price">
                                     <span class="price"> ৳{{ formatNumberInBengali($price_after_discount) }} </span>
                                 </div>
                             </div>
                             @else
                                 <div>
-                                    <small style="background: #F06A25;border-radius: 10px;padding: 3px 5px;font-size: 10px;">স্টকে আছে</small>
+                                    <small style="background: #4398fe;border-radius: 10px;padding: 3px 5px;font-size: 10px;">স্টকে আছে</small>
                                     <div class="product-price">
                                         <span class="price"> ৳{{ formatNumberInBengali($product->regular_price) }} </span>
                                     </div>

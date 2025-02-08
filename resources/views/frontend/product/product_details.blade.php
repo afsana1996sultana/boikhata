@@ -31,11 +31,11 @@
         }
 
         .rating i {
-            color: #ffb301;
+            color: #4398fe;
         }
 
         .single-review-item {
-            border-top: 1px solid #ffb301;
+            border-top: 1px solid #4398fe;
         }
 
         .single-review-item {
@@ -73,8 +73,8 @@
         }
 
         .single-book button {
-            background: #f06a256b;
-            color: #F06A25;
+            background: #4398fe6b;
+            color: #4398fe;
             border: 0;
             border-radius: 4px;
             padding: 5px 10px;
@@ -82,7 +82,7 @@
         }
 
         .single-book:hover button {
-            background: #F06A25;
+            background: #4398fe;
             color: #fff;
         }
 
@@ -150,7 +150,7 @@
         }
 
         .share__social i:hover {
-            color: #f06a25 !important;
+            color: #4398fe !important;
         }
     </style>
     <!-- Image zoom -->
@@ -201,44 +201,6 @@
                     <div class="product-detail accordion-detail">
                         <div class="row mt-30 mb-20">
                             <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12">
-                                {{-- <div class="showpdf">
-                                    <div data-bs-toggle="modal" data-bs-target="#showPdfBook">
-                                        @foreach ($product->multi_imgs as $img)
-                                            @php
-                                                $pdf = $product->product_pdf;
-                                                $pdfPath = public_path($pdf);
-                                                $pdfbookName = $product->name_bn;
-                                            @endphp
-                                            @if ($pdf && file_exists($pdfPath))
-                                                <a class="pdf-link" href="{{ asset($pdf) }}" data-pdf="{{ asset($pdf) }}">
-                                                    <img src="{{asset('frontend/read.png')}}" alt="একটু পড়ে দেখুন" class="readBook">
-                                                    <img src="{{ asset($img->photo_name) }}" alt="{{ $pdfbookName }}" class="thumbnail_book_image">
-                                                </a>
-                                            @else
-                                                <a class="pdf-link" href="{{ asset($img->photo_name) }}" data-pdf="{{ asset($img->photo_name) }}">
-                                                    <img src="{{asset('frontend/read.png')}}" alt="একটু পড়ে দেখুন" class="readBook">
-                                                    <img src="{{ asset($img->photo_name) }}" alt="{{ $pdfbookName }}" class="thumbnail_book_image">
-                                                </a>
-                                            @endif
-                                        @endforeach
-                                    </div>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="showPdfBook" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h3 class="modal-title fs-6" id="staticBackdropLabel">একটু পড়ে দেখুন</h3>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <iframe id="pdfIframe" src="" width="100%" height="500px"></iframe>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
                                 <div class="showpdf">
                                     <div data-bs-toggle="modal" data-bs-target="#showPdfBook">
                                         @foreach ($product->multi_imgs as $img)
@@ -301,7 +263,7 @@
                                     </h2>
                                     <h4 class="title-detail">
                                        <strong class="text-black">লেখক : </strong>
-                                        {{ $product->name_bn }}
+                                        {{ $product->writer->writer_name ?? 'No Authors'}}
                                     </h4>
                                     <h6 class="category_show">ক্যাটেগরি : {{ $product->category->name_bn }}</h6>
                                     <div class="d-inline-block">
@@ -398,7 +360,7 @@
                                                                     <span style="margin-bottom: 0; font-weight: bold;">
                                                                         ৳{{ formatNumberInBengali($price_after_discount) }}
                                                                     </span>
-                                                                    <span style="margin-bottom: 0; color: #EF7D20; font-weight: bold;">
+                                                                    <span style="margin-bottom: 0; color: #4398fe; font-weight: bold;">
                                                                         <del>৳{{ formatNumberInBengali($MostSellProduct->regular_price) }}</del>
                                                                     </span>
                                                                 @else
@@ -487,15 +449,15 @@
                                                             class="text-danger">*</span></label>
                                                     <div class="rating-checked">
                                                         <input type="radio" name="rating" value="5"
-                                                            style="--r: #ffb301" />
+                                                            style="--r: #4398fe" />
                                                         <input type="radio" name="rating" value="4"
-                                                            style="--r: #ffb301" />
+                                                            style="--r: #4398fe" />
                                                         <input type="radio" name="rating" value="3"
-                                                            style="--r: #ffb301" />
+                                                            style="--r: #4398fe" />
                                                         <input type="radio" name="rating" value="2"
-                                                            style="--r: #ffb301" />
+                                                            style="--r: #4398fe" />
                                                         <input type="radio" name="rating" value="1"
-                                                            style="--r: #ffb301" />
+                                                            style="--r: #4398fe" />
                                                     </div>
                                                     @error('rating')
                                                         <p class="text-danger">{{ $message }}</p>

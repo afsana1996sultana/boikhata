@@ -29,7 +29,7 @@
 
         .slider_active ul.slick-dots li.slick-active button {
             width: 50px;
-            background-color: #F06A25;
+            background-color: #4398fe;
         }
 
         a.single-category {
@@ -65,8 +65,8 @@
         }
 
         .single-book button {
-            background: #f06a256b;
-            color: #F06A25;
+            background: #4398fe6b;
+            color: #4398fe;
             border: 0;
             border-radius: 4px;
             padding: 5px 10px;
@@ -74,7 +74,7 @@
         }
 
         .single-book:hover button {
-            background: #F06A25;
+            background: #4398fe;
             color: #fff;
         }
 
@@ -110,7 +110,7 @@
 
         a.special_cat:hover {
             box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-            color: #F06A25;
+            color: #4398fe;
         }
 
         .section-title a {
@@ -123,7 +123,7 @@
             left: 0;
             top: 100%;
             display: block;
-            background: #F58021;
+            background: #4398fe;
             width: 100%;
             height: 1px;
             transform-origin: right;
@@ -135,7 +135,7 @@
             transform: scale(1);
         }
         .read_more{
-            color: #F06A25 !important;
+            color: #4398fe !important;
         }
 
     </style>

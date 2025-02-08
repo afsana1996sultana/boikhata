@@ -28,7 +28,7 @@
 
                 @if ($product->discount_price > 0)
                     <span style="margin-bottom: 0; font-weight: bold;">৳{{ formatNumberInBengali($price_after_discount) }}</span>
-                    <span style="margin-bottom: 0; color: #EF7D20; font-weight: bold;"><del>৳{{ formatNumberInBengali($product->regular_price) }}</del></span>
+                    <span style="margin-bottom: 0; color: #4398fe; font-weight: bold;"><del>৳{{ formatNumberInBengali($product->regular_price) }}</del></span>
                 @else
                     <span style="margin-bottom:0; font-weight: bold;">৳{{ formatNumberInBengali($product->regular_price) }}</span>
                 @endif
