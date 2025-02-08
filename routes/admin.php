@@ -48,8 +48,8 @@ use App\Http\Controllers\Backend\PaymentMethodController;
 
 /*========================== Start Admin Route  ==========================*/
 
-Route::get('/admin', [AdminController::class, 'Index'])->name('login_form');
-Route::post('/admin', [AdminController::class, 'Login'])->name('admin.login');
+Route::get('/c/admin', [AdminController::class, 'Index'])->name('login_form');
+Route::post('/c/admin', [AdminController::class, 'Login'])->name('admin.login');
 
 // Admin All Routes
 Route::prefix('admin')->middleware('admin')->group(function () {

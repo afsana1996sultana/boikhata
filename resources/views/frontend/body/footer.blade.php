@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-12">
-                    <p class="text-center text-white">Developed by <a class="text-white" target="_blank" href="https://classicit.com.bd/"><strong>Classic IT</strong></a></p>
+                    <p class="text-center text-white">Developed by <a class="text-white" target="_blank" href="https://codehouseit.com"><strong>CodeHouse IT</strong></a></p>
                 </div>
             </div>
         </div>

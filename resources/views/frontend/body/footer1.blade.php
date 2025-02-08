@@ -125,13 +125,12 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-5 col-12">
-                    <p class="font-sm text-center classicit">
+                    <p class="font-sm text-center codehouseit">
                         Developed by:
-                        <a target="_blank" href="https://classicit.com.bd/">Classic IT</a>
+                        <a target="_blank" href="https://codehouseit.com">CodeHouse IT</a>
                     </p>
                 </div>
-                {{-- <div class="col-xl-4 col-lg-4 col-md-6 text-end d-none d-md-block"> --}}
-                <div class="col-xl-5 col-lg-4 col-md-12 col-12 text-center text-lg-end classicit_year">
+                <div class="col-xl-5 col-lg-4 col-md-12 col-12 text-center text-lg-end codehouseit_year">
                     <a href="#" class="footer__payment__info">
                         <img class="" src="{{ asset('frontend/assets/imgs/theme/payment-method.png') }}"
                             alt="">

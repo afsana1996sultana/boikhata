@@ -7,7 +7,7 @@
         <div class="top-navbar-right ms-3">
             <ul class="navbar-nav align-items-center text-center">
                 <li class="">
-                    <a href="https://tateeghar.classicit.org/" target="_blank" class="nav-link">
+                    <a href="#" target="_blank" class="nav-link">
                         <div style="padding: 7px 10px;background: linear-gradient(310deg, #7928ca, #ff0080);color: #ffffff;box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);border: 1px solid rgb(255 255 255 / 0%);border-radius: 25px;">View Website</div>
                     </a>
                 </li>
