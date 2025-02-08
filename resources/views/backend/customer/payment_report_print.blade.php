@@ -106,7 +106,7 @@
 		</div>
 
 	    <div style="padding:0 1.5rem;">
-			<div style="display: flex; font-size: 13px; justify-content: center; margin: 10px 0px;">Developed By : <a target="_blank" style="text-decoration: none;font-weight: 700; margin-left: 5px;" href="https://classicit.com.bd"> Classic IT</a>
+			<div style="display: flex; font-size: 13px; justify-content: center; margin: 10px 0px;">Developed By : <a target="_blank" style="text-decoration: none;font-weight: 700; margin-left: 5px;" href="https://codehouseit.com"> CodeHouse IT</a>
 			</div>
 	    </div>
 	</div>

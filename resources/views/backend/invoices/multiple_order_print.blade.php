@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beauty Product</title>
+    <title>{{ get_setting('site_name')->value }}</title>
 </head>
 <style>
     ul {
@@ -58,10 +58,10 @@
     <div class="wrapper"
         style="width: 576px;margin: auto;background-color: white;border: 1px solid #ddd; padding: 10px;">
         <div class="wrapper__header" style="text-align: center;">
-            <h1 style="margin: 0;font-weight: 600;">Beauty Products BD</h1>
+            <h1 style="margin: 0;font-weight: 600;">{{ get_setting('site_name')->value }}</h1>
             <p style="font-size: 20px;">Phone: {{ get_setting('phone')->value }}</p>
             <hr style="margin: 0; margin-top: 10px;">
-            <a href="{{ route('home') }}"><p style="text-decoration: underline;font-weight: 700;font-size: 20px;">www.beautyproductsbd.com</p></a>
+            <a href="{{ route('home') }}"><p style="text-decoration: underline;font-weight: 700;font-size: 20px;">www.boikhata.com</p></a>
         </div>
         <div style="display: flex; justify-content: space-between;">
             <ul class="customer__info">
@@ -135,15 +135,7 @@
         </div>
 
         <div style="text-align: center;margin-top: 10px;" class="aditional__info">
-            <p><span>*</span>Cosmetics, accessories, and toys are not exchangeable.</p>
-            <p><span>*</span>Once the delivery is complete, we would not be held responsible for sending wrong/damaged
-                products
-                (Please check products while receiving)</p>
-            <p><span>*</span>An item can only be exchanged once within 7 days after invoiced.</p>
-            <p><span>*</span>Products sold under discount offer is not exchangeable.</p>
-            <p><span>*</span>For exchange invoice is required.</p>
-            <p><span>*</span>Change of mind is not applicable</p>
-            <p>Developed By: <a href="https://classicit.com.bd"><strong>Classic IT</strong></a></p>
+            <p>Developed By: <a href="https://codehouseit.com"><strong>CodeHouse IT</strong></a></p>
         </div>
 
     </div>

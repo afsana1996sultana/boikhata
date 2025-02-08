@@ -92,13 +92,13 @@
         margin-bottom: 10px;
     }
 
-    .classicit {
+    .codehouseit {
         margin: 10px 0;
         display: block;
         margin-bottom: 30px;
     }
 
-    .classicit a {
+    .codehouseit a {
         margin-bottom: 15px;
         display: block;
     }
@@ -295,7 +295,7 @@
         font-size: 23px;
     }
 
-    .classicit_year {
+    .codehouseit_year {
         margin-top: 20px;
     }
 
@@ -2700,7 +2700,7 @@ ul.subcategory__item__show li {
     margin-bottom: 5px;
 }
 
-.classicit a {
+.codehouseit a {
     font-weight: bolder;
     color: #335DFF;
 }
@@ -2756,7 +2756,7 @@ ul.contact-infor li,
 ul.contact-infor li span,
 ul.contact-infor li a,
 ul.contact-infor li h5,
-p.font-sm.text-center.classicit {
+p.font-sm.text-center.codehouseit {
     color: #fff !important;
 }
 

@@ -88,19 +88,7 @@
                                 width: 72px;
                             }
                         </style>
-                        <div class="mt-4">
-                            <table class="table table-bordered custom_input">
-                                <tbody>
-                                    <tr>
-                                        <td>admin@gmail.com</td>
-                                        <td><input type="password" name="" value="12345678" disabled></td>
-                                        <td><button  class="btn btn-info btn-xs" onclick="autoFill()">Copy</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                         <p class="text-center small text-muted mb-15">or sign up with</p>
-                       
                         <p class="text-center mb-4">Don't have account? <a href="{{ route('admin.regester') }}">Sign up</a></p>
                     </div>
                 </div>
@@ -150,14 +138,6 @@
             @if(Session::has('info'))
                 toastr.info("{{Session::get('info') }}");
             @endif
-        </script>
-
-        <!-- copy to password show  -->
-        <script type="text/javascript">
-            function autoFill(){
-                $('#email').val('admin@gmail.com');
-                $('#password').val('12345678');
-            }
         </script>
     </body>
 </html>

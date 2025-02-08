@@ -135,7 +135,7 @@
         </div>
 
         <div style="text-align: center;margin-top: 10px;" class="aditional__info">
-            <p>Developed By: <a href="https://classicit.com.bd"><strong>Classic IT</strong></a></p>
+            <p>Developed By: <a href="https://codehouseit.com"><strong>CodeHouse IT</strong></a></p>
         </div>
     </div>
 </body>
