@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <div class="header-area" style="background-color: #F06A25;">
+    <div class="header-area" style="background-color: #4398fe;">
         <div class="container">
             <div class="row">
                 <div class="col-xl-12 d-lg-block d-none">

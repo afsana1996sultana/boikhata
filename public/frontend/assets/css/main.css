@@ -5294,7 +5294,7 @@ table.clean th {
     font-size: 25px;
     text-decoration: none;
     font-weight: 600;
-    color: #f06a25;
+    color: #4398fe;
 }
 
 .detail-info .product-meta {
@@ -5347,7 +5347,7 @@ table.clean th {
     font-weight: 700;
     font-size: 16px;
     font-family: "Poppins", sans-serif;
-    background: #f06a25;
+    background: #4398fe;
     transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
     padding-top: 8px;
@@ -14138,7 +14138,7 @@ img.bottom__category__thumbnail {
 }
 
 .sku_name {
-    background: #f06a25;
+    background: #4398fe;
     color: #fff !important;
     padding: 5px 10px;
     display: inline-block;
@@ -14603,7 +14603,7 @@ a.text-reset.d-block.text-center.buy_now-btn {
 
 a.product__thumbnail__image.slick-slide.slick-current.slick-active {
     overflow: hidden;
-    background: #f06a25;
+    background: #4398fe;
 }
 
 .mfp-iframe-holder .mfp-content {

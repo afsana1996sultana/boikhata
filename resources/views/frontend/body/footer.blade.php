@@ -45,7 +45,7 @@
                 <div class="col-xl-3 col-lg-4 col-md-6">
                     <div class="footer_widget">
                         <div class="footer_title">
-                            <h3 style="color:#F58021">Information</h3>
+                            <h3 style="color:#4398fe">Information</h3>
                         </div>
                         <ul>
                             <li><a href="{{ route('home') }}">Home</a></li>
@@ -57,7 +57,7 @@
                 <div class="col-xl-3 col-lg-4 col-md-6">
                     <div class="footer_widget">
                         <div class="footer_title">
-                            <h3 style="color:#F58021">Company</h3>
+                            <h3 style="color:#4398fe">Company</h3>
                         </div>
                         <ul>
                             @foreach(get_pages_both_footer() as $page)
@@ -73,7 +73,7 @@
             </div>
             <div class="mt-3 text-center row">
                 <div class="col-12 col-md-10 offset-md-1">
-                    <button style="border: 0; background: #F58021; color: #fff;  border-radius: 3px;padding: 5px 40px;font-size: 16px;margin-bottom:30px">Payment
+                    <button style="border: 0; background: #4398fe; color: #fff;  border-radius: 3px;padding: 5px 40px;font-size: 16px;margin-bottom:30px">Payment
                         Methods</button>
                     <img src="{{ asset('frontend/assets/imgs/payment.png') }}" alt="payment method">
                 </div>

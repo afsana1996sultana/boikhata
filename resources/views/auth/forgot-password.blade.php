@@ -4,7 +4,7 @@
 @push('css')
     <style>
         .text-orange{
-            color: #f06a25 !important;
+            color: #4398fe !important;
         }
     </style>
 @endpush

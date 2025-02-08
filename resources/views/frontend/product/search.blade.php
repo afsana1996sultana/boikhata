@@ -16,8 +16,8 @@
     }
 
     .single-book button {
-        background: #f06a256b;
-        color: #F06A25;
+        background: #4398fe6b;
+        color: #4398fe;
         border: 0;
         border-radius: 4px;
         padding: 5px 10px;
@@ -25,7 +25,7 @@
     }
 
     .single-book:hover button {
-        background: #F06A25;
+        background: #4398fe;
         color: #fff;
     }
 
