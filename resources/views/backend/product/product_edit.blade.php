@@ -207,20 +207,6 @@
                             <input type="file" name="product_thumbnail" class="form-control" id="product_thumbnail" onChange="mainThamUrl(this)">
 							<img src="{{ asset($product->product_thumbnail) }}" width="100" height="100" class="p-2" id="mainThmb">
 						</div>
-						
-						<div class="mb-4">
-							<label for="product_pdf" class="col-form-label" style="font-weight: bold;"> Product Pdf: </label>
-							<input name="product_pdf" class="form-control" type="file" id="product_pdf" accept="application/pdf">
-							<small class="text-muted">Product Pdf max size 3MB and try to keep pdf size low as it'll increase page load time.</small>
-							@error('product_pdf')
-								<p class="text-danger">{{ $message }}</p>
-							@enderror
-						</div>
-						@if($product->product_pdf !=null)
-							<div class="mb-4">
-								<img id="showImage" class="rounded avatar-lg" src="{{ (!empty($editData->profile_image))? url('upload/admin_images/'.$editData->profile_image):url('upload/pdf.png') }}" alt="Card image cap" width="60px" height="80px;">
-							</div>
-						@endif
 						<br>
 						<div class="col-md-12 mb-3">
 		                	<div class="box-header mb-3 d-flex">
