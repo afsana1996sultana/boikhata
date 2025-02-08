@@ -88,9 +88,7 @@ class ProductController extends Controller
             'unit_weight'       => 'nullable|numeric',
             'unit_id'           => 'nullable|integer',
             'product_thumbnail' => 'nullable|file',
-            'product_pdf'       => 'nullable|file|mimes:pdf|max:3072',
-        ],
-        ['product_pdf.max'  => 'Product Pdf size can not be more then 3MB',]);
+        ]);
 
         if(!$request->name_bn){
             $request->name_bn = $request->name_en;
@@ -133,15 +131,6 @@ class ProductController extends Controller
             $save_url = '';
         }
 
-        if ($request->hasFile('product_pdf')) {
-            $pdf = $request->file('product_pdf');
-            $name_gen = hexdec(uniqid()) . '.' . $pdf->getClientOriginalExtension();
-            $pdf->move(public_path('upload/products/pdf/'), $name_gen);
-            $pdf_save_url = 'upload/products/pdf/' . $name_gen;
-        } else {
-            $pdf_save_url = '';
-        }
-
         $checkCode = rand(10000,99999);
         $productCodeCheck = Product::where('product_code', $checkCode)->first();
 
@@ -180,7 +169,6 @@ class ProductController extends Controller
             'package_book'          => $request->package_book ? 1 : 0,
             'show_stock'            => $request->show_stock ? 1 : 0,
             'product_thumbnail'     => $save_url,
-            'product_pdf'           => $pdf_save_url,
             'created_by'            => Auth::guard('admin')->user()->id,
         ]);
 
@@ -347,9 +335,7 @@ class ProductController extends Controller
                 'brand_id'          => 'nullable|integer',
                 'unit_id'           => 'nullable|integer',
                 'unit_weight'       => 'nullable|numeric',
-                'product_pdf'       => 'nullable|file|mimes:pdf|max:3072',
-            ],
-            ['product_pdf.max'  => 'Product Pdf size can not be more then 3MB',]);
+            ]);
 
 
             if(!$request->name_bn){
@@ -399,23 +385,6 @@ class ProductController extends Controller
                 $save_url = $product->product_thumbnail;
             }
 
-
-            if($request->hasfile('product_pdf')){
-                try {
-                    if(file_exists($product->product_pdf)){
-                        unlink($product->product_pdf);
-                    }
-                } catch (Exception $e) {
-
-                }
-                $pdf = $request->file('product_pdf');
-                $name_gen = hexdec(uniqid()) . '.' . $pdf->getClientOriginalExtension();
-                $pdf->move(public_path('upload/products/pdf/'), $name_gen);
-                $pdf_save_url = 'upload/products/pdf/' . $name_gen;
-            }else{
-                $pdf_save_url = $product->product_pdf;
-            }
-
             $pre_stock =$product->stock_qty;
             $product->update([
                 'brand_id'              => $request->brand_id,
@@ -447,7 +416,6 @@ class ProductController extends Controller
                 'package_book'           => $request->package_book ? 1 : 0,
                 'show_stock'            => $request->show_stock ? 1 : 0,
                 'product_thumbnail'     => $save_url,
-                'product_pdf'           => $pdf_save_url,
                 'created_by' => Auth::guard('admin')->user()->id,
             ]);
             

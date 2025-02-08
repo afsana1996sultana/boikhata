@@ -203,15 +203,6 @@
 						</div>
 
 						<div class="mb-4">
-							<label for="product_pdf" class="col-form-label" style="font-weight: bold;"> Product Pdf: </label>
-							<input name="product_pdf" class="form-control" type="file" id="product_pdf" accept="application/pdf">
-							<small class="text-muted">Product Pdf max size 3MB and try to keep pdf size low as it'll increase page load time.</small>
-							@error('product_pdf')
-								<p class="text-danger">{{ $message }}</p>
-							@enderror
-						</div>
-
-						<div class="mb-4">
 							<label for="multiImg" class="col-form-label" style="font-weight: bold;">Product Gallery Image:</label>
 							<input type="file" name="multi_img[]" class="form-control" multiple="" id="multiImg" >
 							<div class="row  p-2" id="preview_img">

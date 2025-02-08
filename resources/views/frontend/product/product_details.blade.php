@@ -202,40 +202,12 @@
                         <div class="row mt-30 mb-20">
                             <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12">
                                 <div class="showpdf">
-                                    <div data-bs-toggle="modal" data-bs-target="#showPdfBook">
+                                    <div data-bs-toggle="modal">
                                         @foreach ($product->multi_imgs as $img)
-                                            @php
-                                                $pdf = $product->product_pdf;
-                                                $pdfPath = public_path($pdf);
-                                                $pdfbookName = $product->name_bn;
-                                            @endphp
-                                            @if ($pdf && file_exists($pdfPath))
-                                                <a class="pdf-link" data-pdf="{{ asset($pdf) }}">
-                                                    <img src="{{asset('frontend/read.png')}}" alt="একটু পড়ে দেখুন" class="readBook">
-                                                    <img src="{{ asset($img->photo_name) }}" alt="{{ $pdfbookName }}" class="thumbnail_book_image">
-                                                </a>
-                                            @else
-                                                <a class="pdf-link" data-pdf="{{ asset($img->photo_name) }}">
-                                                    <img src="{{asset('frontend/read.png')}}" alt="একটু পড়ে দেখুন" class="readBook">
-                                                    <img src="{{ asset($img->photo_name) }}" alt="{{ $pdfbookName }}" class="thumbnail_book_image">
-                                                </a>
-                                            @endif
+                                            <a class="pdf-link">
+                                                <img src="{{ asset($img->photo_name) }}" alt="Product Image" class="thumbnail_book_image">
+                                            </a>
                                         @endforeach
-                                    </div>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="showPdfBook" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h3 class="modal-title fs-6" id="staticBackdropLabel">একটু পড়ে দেখুন</h3>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <iframe id="pdfIframe" src="" width="100%" height="500px"></iframe>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -631,44 +603,6 @@
                 value++;
                 input.val(value);
             })
-        });
-    </script>
-    <script>
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     const modal = document.getElementById('showPdfBook');
-        //     const iframe = document.getElementById('pdfIframe');
-        //     const links = document.querySelectorAll('.pdf-link');
-
-        //     links.forEach(link => {
-        //         link.addEventListener('click', function (event) {
-        //             event.preventDefault();
-        //             const pdfUrl = this.getAttribute('data-pdf');
-        //             iframe.src = pdfUrl + '#toolbar=0';
-        //         });
-        //     });
-
-        //     modal.addEventListener('hidden.bs.modal', function () {
-        //         iframe.src = ''; // Clear the iframe src when modal is closed
-        //     });
-        // });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const modal = document.getElementById('showPdfBook');
-            const iframe = document.getElementById('pdfIframe');
-            const links = document.querySelectorAll('.pdf-link');
-
-            links.forEach(link => {
-                link.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    const pdfUrl = this.getAttribute('data-pdf');
-                    iframe.src = pdfUrl + '#toolbar=0';
-                    $('#showPdfBook').modal('show');
-                });
-            });
-
-            $('#showPdfBook').on('hidden.bs.modal', function () {
-                iframe.src = ''; // Clear the iframe src when modal is closed
-            });
         });
     </script>
 @endpush
