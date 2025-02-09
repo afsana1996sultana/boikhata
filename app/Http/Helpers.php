@@ -291,10 +291,18 @@ if (!function_exists('getMaintenance')) {
     }
 }
 
+// if (!function_exists('formatNumberInBengali')) {
+//     function formatNumberInBengali($number) {
+//         $fmt = new \NumberFormatter('bn_BD', \NumberFormatter::DECIMAL);
+//         return $fmt->format($number);
+//     }
+// }
+
 if (!function_exists('formatNumberInBengali')) {
     function formatNumberInBengali($number) {
-        $fmt = new \NumberFormatter('bn_BD', \NumberFormatter::DECIMAL);
-        return $fmt->format($number);
+        $bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        $englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        return str_replace($englishDigits, $bengaliDigits, (string) $number);
     }
 }
 
