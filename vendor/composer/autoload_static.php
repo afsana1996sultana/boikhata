@@ -602,6 +602,12 @@ class ComposerStaticInit310caa99f97f1df2426af73345fc2142
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\BlogProcess' => __DIR__ . '/../..' . '/app/Console/Commands/BlogProcess.php',
+        'App\\Console\\Commands\\ProcessProductMultiImage' => __DIR__ . '/../..' . '/app/Console/Commands/ProcessProductMultiImage.php',
+        'App\\Console\\Commands\\ProcessProductThumbnails' => __DIR__ . '/../..' . '/app/Console/Commands/ProcessProductThumbnails.php',
+        'App\\Console\\Commands\\ProcessProductvariations' => __DIR__ . '/../..' . '/app/Console/Commands/ProcessProductvariations.php',
+        'App\\Console\\Commands\\SliderProcess' => __DIR__ . '/../..' . '/app/Console/Commands/SliderProcess.php',
+        'App\\Console\\Commands\\campaignCron' => __DIR__ . '/../..' . '/app/Console/Commands/campaignCron.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Helpers\\Classes\\Combinations' => __DIR__ . '/../..' . '/app/Helpers/Classes/Combinations.php',
