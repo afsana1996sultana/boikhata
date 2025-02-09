@@ -6,6 +6,12 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\BlogProcess' => $baseDir . '/app/Console/Commands/BlogProcess.php',
+    'App\\Console\\Commands\\ProcessProductMultiImage' => $baseDir . '/app/Console/Commands/ProcessProductMultiImage.php',
+    'App\\Console\\Commands\\ProcessProductThumbnails' => $baseDir . '/app/Console/Commands/ProcessProductThumbnails.php',
+    'App\\Console\\Commands\\ProcessProductvariations' => $baseDir . '/app/Console/Commands/ProcessProductvariations.php',
+    'App\\Console\\Commands\\SliderProcess' => $baseDir . '/app/Console/Commands/SliderProcess.php',
+    'App\\Console\\Commands\\campaignCron' => $baseDir . '/app/Console/Commands/campaignCron.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Helpers\\Classes\\Combinations' => $baseDir . '/app/Helpers/Classes/Combinations.php',
