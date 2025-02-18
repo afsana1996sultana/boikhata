@@ -123,11 +123,8 @@
                     <td class="strong">{{ $order->name }}</td>
                 </tr>
                 <tr>
-                    <td class="gry-color small">
-                        {{ ucwords($order->upazilla->name_en) }},
-                        {{ ucwords($order->district->district_name_en) }},
-                        {{ ucwords($order->division->division_name_en) }}
-                    </td>
+                    <td class="strong">{{ $order->address ?? '' }},
+                    {{ $order->upazilla->name_en ?? '' }}, {{ $order->district->district_name_en ?? '' }}</td>
                 </tr>
                 <tr>
                     <td class="gry-color small">Email: {{ $order->email }}</td>

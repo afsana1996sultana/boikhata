@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BoiBaari</title>
+    <title>{{ get_setting('site_name')->value }}</title>
 </head>
 <style>
     ul {
@@ -61,7 +61,7 @@
             <h1 style="margin: 0;font-weight: 600;">{{ get_setting('site_name')->value }}</h1>
             <p style="font-size: 20px;">Phone: {{ get_setting('phone')->value }}</p>
             <hr style="margin: 0; margin-top: 10px;">
-            <a href="{{ route('home') }}"><p style="text-decoration: underline;font-weight: 700;font-size: 20px;">www.boibaari.com</p></a>
+            <a href="{{ route('home') }}"><p style="text-decoration: underline;font-weight: 700;font-size: 20px;">www.boikhata.xyz</p></a>
         </div>
         <div style="display: flex; justify-content: space-between;">
             <ul class="customer__info">

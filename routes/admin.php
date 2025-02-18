@@ -27,6 +27,7 @@ use App\Http\Controllers\Backend\AccountsController;
 use App\Http\Controllers\Backend\CampaingController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ShippingController;
+use App\Http\Controllers\Backend\OrdernoteController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\Backend\SubscriberController;
@@ -248,6 +249,16 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 	Route::get('/shipping_active/{id}', [ShippingController::class, 'active'])->name('shipping.active');
 	Route::get('/shipping_inactive/{id}', [ShippingController::class, 'inactive'])->name('shipping.in_active');
 
+	// Order Note Route
+	Route::get('/order-note/index', [OrdernoteController::class, 'index'])->name('order-note.index');
+	Route::get('/order-note/create', [OrdernoteController::class, 'create'])->name('order-note.create');
+	Route::post('/order-note/store', [OrdernoteController::class, 'store'])->name('order-note.store');
+	Route::get('/order-note/edit/{id}', [OrdernoteController::class, 'edit'])->name('order-note.edit');
+	Route::post('/order-note/update/{id}', [OrdernoteController::class, 'update'])->name('order-note.update');
+	Route::get('/order-note/delete/{id}', [OrdernoteController::class, 'destroy'])->name('order-note.delete');
+	Route::get('/order-note_active/{id}', [OrdernoteController::class, 'active'])->name('order-note.active');
+	Route::get('/order-note_inactive/{id}', [OrdernoteController::class, 'inactive'])->name('order-note.in_active');
+
 	Route::get('/attributes/combination', [AttributeController::class, 'combination'])->name('combination.index');
 
 	// Payment Methods Route
@@ -259,8 +270,6 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 		// Orders All Route
 		Route::get('/all_orders', [OrderController::class, 'index'])->name('all_orders.index');
 		Route::get('/all_orders/pos', [OrderController::class, 'indexPos'])->name('all_orders.indexPos');
-		// Route::get('/all_orders/vendor_sale_index', [OrderController::class, 'vendorSellView'])->name('all_orders.vendor_sale_index');
-		// Route::get('/all_orders/all_vendor_sale_index', [OrderController::class, 'AllvendorSellView'])->name('all_orders.all_vendor_sale_index');
 		Route::get('/all_orders/{id}/show', [OrderController::class, 'show'])->name('all_orders.show');
 		Route::get('/all_orders/{id}/ordercancle', [OrderController::class, 'ordercancle'])->name('order.cancle');
 		Route::get('/orders_delete/{id}', [OrderController::class, 'destroy'])->name('delete.orders');
@@ -284,6 +293,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 	Route::post('/orders/update_payment_status', [OrderController::class, 'update_payment_status'])->name('orders.update_payment_status');
 	// delivery status
 	Route::post('/orders/update_delivery_status', [OrderController::class, 'update_delivery_status'])->name('orders.update_delivery_status');
+	// Note status
+	Route::post('/orders/update_note_status', [OrderController::class, 'update_note_status'])->name('orders.update_note_status');
 
 	// Report All Route
 	Route::get('/stock_report', [ReportController::class, 'index'])->name('stock_report.index');

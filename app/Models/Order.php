@@ -29,6 +29,10 @@ class Order extends Model
         return $this->belongsTo(Product::class, 'product_id','id');
     }
 
+    public function staff(){
+        return $this->belongsTo(Staff::class, 'staff_id','id');
+    }
+
     public function order_details(){
         return $this->hasMany('App\Models\OrderDetail');
     }

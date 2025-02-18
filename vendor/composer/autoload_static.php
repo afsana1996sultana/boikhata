@@ -706,6 +706,7 @@ class ComposerStaticInit310caa99f97f1df2426af73345fc2142
         'App\\Models\\OrderDetail' => __DIR__ . '/../..' . '/app/Models/OrderDetail.php',
         'App\\Models\\OrderPayment' => __DIR__ . '/../..' . '/app/Models/OrderPayment.php',
         'App\\Models\\OrderStatus' => __DIR__ . '/../..' . '/app/Models/OrderStatus.php',
+        'App\\Models\\Ordernote' => __DIR__ . '/../..' . '/app/Models/Ordernote.php',
         'App\\Models\\Page' => __DIR__ . '/../..' . '/app/Models/Page.php',
         'App\\Models\\PaymentMethod' => __DIR__ . '/../..' . '/app/Models/PaymentMethod.php',
         'App\\Models\\PosCart' => __DIR__ . '/../..' . '/app/Models/PosCart.php',

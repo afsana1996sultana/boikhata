@@ -264,9 +264,23 @@
                     <div class="row gutters-5">
                         <h6 class="payment__info"></h6>
                         <div class="col-4 col-sm-3">
+                            <lavel class="mb-3 cit-megabox d-block cash_on_delivery">
+                                <input class="form-check-input" required="" type="radio" name="payment_option"
+                                    id="cash_on_delivery" checked="" value="cod">
+                                <span class="p-2 d-block cit-megabox-elem">
+                                    <img src="{{ asset('frontend') }}/assets/imgs/theme/cod.png" alt=""
+                                        class="mb-2 img-fluid">
+                                    <span class="text-center d-block">
+                                        <span class="d-block fw-500 fs-15">Cash On Delivery</span>
+                                    </span>
+                                </span>
+                            </lavel>
+                        </div>
+
+                        <div class="col-4 col-sm-3">
                             <lavel class="mb-3 cit-megabox d-block">
                                 <input class="form-check-input" required="" type="radio" name="payment_option"
-                                    id="bkash" checked="" value="bkash">
+                                    id="bkash" value="bkash">
                                 <span class="p-2 d-block cit-megabox-elem">
                                     <img src="{{ asset('frontend') }}/assets/imgs/theme/bkash.png" alt=""
                                         class="mb-2 img-fluid">
@@ -290,41 +304,14 @@
                                 </span>
                             </lavel>
                         </div>
-
-                        <div class="col-4 col-sm-3">
-                            <lavel class="mb-3 cit-megabox d-block cash_on_delivery">
-                                <input class="form-check-input" required="" type="radio" name="payment_option"
-                                    id="cash_on_delivery" value="cod">
-                                <span class="p-2 d-block cit-megabox-elem">
-                                    <img src="{{ asset('frontend') }}/assets/imgs/theme/cod.png" alt=""
-                                        class="mb-2 img-fluid">
-                                    <span class="text-center d-block">
-                                        <span class="d-block fw-500 fs-15">Cash On Delivery</span>
-                                    </span>
-                                </span>
-                            </lavel>
-                        </div>
                     </div>
                     <!-- </div> -->
-                    <button type="submit" class="btn btn-fill-out btn-block">অর্ডার করুন <i
-                            class="fa fa-arrow-right"></i></button>
+                    <button type="submit" class="btn btn-fill-out btn-block">অর্ডার করুন <i class="fa fa-arrow-right"></i></button>
                 </div>
             </div>
             </form>
         </div>
     </div>
-    {{-- <div class="checkout_slide">
-        <div class="container">
-            @php
-            $sliders=\App\Models\Slider::latest()->get();
-            @endphp
-            <div class="slider_active">
-                @foreach ($sliders as $slider)
-                <img src="{{ asset($slider->slider_img) }}" alt="">
-                @endforeach
-            </div>
-        </div>
-    </div> --}}
 </main>
 @endsection
 
@@ -687,6 +674,5 @@
             document.getElementById('name').value = nameInput.replace(/[^a-zA-Z\s]/g, '');
         }
     }
-
   </script>
 @endpush

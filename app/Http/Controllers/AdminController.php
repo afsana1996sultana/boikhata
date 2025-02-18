@@ -127,14 +127,14 @@ class AdminController extends Controller
         ->select(DB::raw('count(*) as total_orders, sum(sub_total) as total_sell'))
         ->first();
         $Webbuytoday=DB::table('orders')->where('order_by',0)->whereDate('created_at',Carbon::today())->whereMonth('created_at',Carbon::now()->month)
-             ->select(DB::raw('count(*) as total_orders, sum(totalbuyingPrice) as total_buy'))
+             ->select(DB::raw('count(*) as total_orders, sum(pur_sub_total) as total_buy'))
              ->first();
         $WebbuyThisMonth=DB::table('orders')->where('order_by',0)->whereYear('created_at', Carbon::now()->year)->whereMonth('created_at',Carbon::now()->month)
-             ->select(DB::raw('count(*) as total_orders , sum(totalbuyingPrice) as total_buy'))
+             ->select(DB::raw('count(*) as total_orders , sum(pur_sub_total) as total_buy'))
              ->first();
-        $WebbuyPreviousMonth =DB::table('orders')->where('order_by',0)->whereYear('created_at',Carbon::now()->year)->whereMonth('created_at',Carbon::now()->subMonth()->month)->select(DB::raw('count(*) total_orders, sum(totalbuyingPrice) as total_buy'))->first();
+        $WebbuyPreviousMonth =DB::table('orders')->where('order_by',0)->whereYear('created_at',Carbon::now()->year)->whereMonth('created_at',Carbon::now()->subMonth()->month)->select(DB::raw('count(*) total_orders, sum(pur_sub_total) as total_buy'))->first();
         $WebbuyThisYear = DB::table('orders')->where('order_by',0)->whereYear('created_at',Carbon::now()->year)
-             ->select(DB::raw('count(*) as total_orders, sum(totalbuyingPrice) as total_buy'))->first();
+             ->select(DB::raw('count(*) as total_orders, sum(pur_sub_total) as total_buy'))->first();
 
 
 
@@ -155,15 +155,15 @@ class AdminController extends Controller
         ->select(DB::raw('count(*) as total_orders, sum(sub_total) as total_sell'))
         ->first();
         $PosbuyToday = DB::table('orders')->where('order_by',1)->whereDate('created_at', Carbon::today())
-        ->select(DB::raw('count(*) as total_orders, sum(totalbuyingPrice) as total_buy'))
+        ->select(DB::raw('count(*) as total_orders, sum(pur_sub_total) as total_buy'))
         ->first();
-        $PosbuyThisMonth =DB::table('orders')->where('order_by',1)->whereYear('created_at',Carbon::now()->year)->whereMonth('created_at',Carbon::now()->month)->select(DB::raw('count(*) as total_orders ,sum(totalbuyingPrice) as total_buy'))
+        $PosbuyThisMonth =DB::table('orders')->where('order_by',1)->whereYear('created_at',Carbon::now()->year)->whereMonth('created_at',Carbon::now()->month)->select(DB::raw('count(*) as total_orders ,sum(pur_sub_total) as total_buy'))
         ->first();
         $PosbuyPreviousMonth =DB::table('orders')->where('order_by',1)->whereYear('created_at',Carbon::now()->year)->whereMonth('created_at',Carbon::now()->subMonth()->month)
-        ->select(DB::raw('count(*) as total_orders,sum(totalbuyingPrice) as total_buy'))
+        ->select(DB::raw('count(*) as total_orders,sum(pur_sub_total) as total_buy'))
         ->first();
         $PosbuyThisYear = DB::table('orders')->where('order_by',1)->whereYear('created_at', Carbon::now()->year)
-        ->select(DB::raw('count(*) as total_orders, sum(totalbuyingPrice) as total_buy'))
+        ->select(DB::raw('count(*) as total_orders, sum(pur_sub_total) as total_buy'))
         ->first();
 
         $StockCount = DB::table('products')->where('status',1)
@@ -200,7 +200,14 @@ class AdminController extends Controller
         $withdraw = Cashwithdraw::where('vendor_id', Auth::guard('admin')->user()->id)->get();
         $withdraw_ammount = $withdraw->where('status', 1)->sum('amount');
 
-    	return view('admin.index', compact('userCount', 'productCount', 'categoryCount', 'brandCount', 'vendorCount','AllOrderCount', 'WebOrderCount','WebOrderToday','WebOrderThisMonth','WebOrderPreviousMonth','WebOrderThisYear','customerCount','PosorderCount','PosOrderToday','PosOrderThisMonth','PosOrderPreviousMonth','PosOrderThisYear','StockCount','PosbuyToday','PosbuyThisMonth','PosbuyPreviousMonth','PosbuyThisYear','Webbuytoday','WebbuyThisMonth','WebbuyPreviousMonth','WebbuyThisYear','products','countLowProducts','staffCount','vendorWalletValue', 'withdraw_ammount', 'withdraw', 'staffOrderCount'));
+        // Fetching order counts by upazilla
+        $orderData = DB::table('orders')
+            ->join('upazillas', 'orders.upazilla_id', '=', 'upazillas.id')
+            ->select('upazillas.name_en as upazilla_name', DB::raw('count(orders.id) as order_count'))
+            ->groupBy('upazillas.name_en')
+            ->get();
+
+    	return view('admin.index', compact('userCount', 'productCount', 'categoryCount', 'brandCount', 'vendorCount','AllOrderCount', 'WebOrderCount','WebOrderToday','WebOrderThisMonth','WebOrderPreviousMonth','WebOrderThisYear','customerCount','PosorderCount','PosOrderToday','PosOrderThisMonth','PosOrderPreviousMonth','PosOrderThisYear','StockCount','PosbuyToday','PosbuyThisMonth','PosbuyPreviousMonth','PosbuyThisYear','Webbuytoday','WebbuyThisMonth','WebbuyPreviousMonth','WebbuyThisYear','products','countLowProducts','staffCount','vendorWalletValue', 'withdraw_ammount', 'withdraw', 'staffOrderCount', 'orderData'));
     } // end method
 
     /*=================== End Dashboard Methoed ===================*/

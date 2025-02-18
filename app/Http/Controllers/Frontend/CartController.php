@@ -39,9 +39,9 @@ class CartController extends Controller
             }
             $qty = $prev_cart_qty + $request->quantity;
 
-            if($qty > $product->stock_qty){
-                return response()->json(['error'=> 'Not enough stock']);
-            }
+            // if($qty > $product->stock_qty){
+            //     return response()->json(['error'=> 'Not enough stock']);
+            // }
         }else{
             $prev_cart_qty = 0;
             foreach($carts as $cart){
@@ -55,9 +55,9 @@ class CartController extends Controller
             $qty = $prev_cart_qty + $request->quantity;
             $stock = ProductStock::where('product_id', $id)->where('varient', $request->product_varient)->first();
 
-            if($qty > $stock->qty){
-                return response()->json(['error'=> 'Not enough stock']);
-            }
+            // if($qty > $stock->qty){
+            //     return response()->json(['error'=> 'Not enough stock']);
+            // }
         }
 
         if($product->is_varient){
@@ -183,9 +183,9 @@ class CartController extends Controller
                 }
             }
             $qty = $prev_cart_qty;
-            if($qty > $product->stock_qty){
-                return response()->json(['error'=> 'Not enough stock']);
-            }
+            // if($qty > $product->stock_qty){
+            //     return response()->json(['error'=> 'Not enough stock']);
+            // }
         }else{
             $prev_cart_qty = 1;
             $carts = Cart::content();
@@ -199,9 +199,9 @@ class CartController extends Controller
             $qty = $prev_cart_qty + $row->qty;
             $stock = ProductStock::where('product_id', $id)->where('varient', $row->options->varient)->first();
 
-            if($qty > $stock->qty){
-                return response()->json(['error'=> 'Not enough stock']);
-            }
+            // if($qty > $stock->qty){
+            //     return response()->json(['error'=> 'Not enough stock']);
+            // }
         }
 
         Cart::update($rowId, $row->qty + 1);

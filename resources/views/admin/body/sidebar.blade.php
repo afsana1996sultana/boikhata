@@ -143,7 +143,7 @@
                 </div>
             </li>
           
-            <li class="menu-item has-submenu {{ ($route == 'all_orders.index') || ($route == 'all_orders.indexPos') ||($route == 'all_orders.all_vendor_sale_index') || ($route == 'all_packages.index') ?'active':'' }}">
+            <li class="menu-item has-submenu {{ ($route == 'all_orders.index') || ($route == 'all_orders.indexPos') ||($route == 'all_orders.all_vendor_sale_index') ?'active':'' }}">
                 @if(Auth::guard('admin')->user()->role == '1' || in_array('17', json_decode(Auth::guard('admin')->user()->staff->role->permissions)))
                     <a class="menu-link" href="#">
                         <i class="icon material-icons md-shopping_cart"></i>
@@ -156,9 +156,6 @@
                           <a class="{{ ($route == 'all_orders.index') ? 'active':'' }}" href="{{ route('all_orders.index') }}" >Online All Orders</a>
                         @endif
                         <a class="{{ ($route == 'all_orders.indexPos') ? 'active':'' }}" href="{{ route('all_orders.indexPos') }}" >Pos All Orders</a>
-                        @if(Auth::guard('admin')->user()->role == '1' )
-                          <a class="{{ ($route == 'all_packages.index') ? 'active':'' }}" href="{{ route('all_packages.index') }}" >All Order Package</a>
-                        @endif
                     @endif
                 </div>
             </li>
@@ -377,6 +374,9 @@
                 {{ ($route == 'shipping.index')? 'active':'' }}
                 {{ ($route == 'shipping.create')? 'active':'' }}
                 {{ ($route == 'shipping.edit')? 'active':'' }}
+                {{ ($route == 'order-note.index')? 'active':'' }}
+                {{ ($route == 'order-note.create')? 'active':'' }}
+                {{ ($route == 'order-note.edit')? 'active':'' }}
                 {{ ($route == 'setting.facebook_plugin_setting')? 'active':'' }}
                 ">
                     <a class="menu-link" href="#">
@@ -388,6 +388,7 @@
                         <a class="{{ ($route == 'setting.activation') ? 'active':'' }}" href="{{ route('setting.activation') }}">Activation</a>
                         <a class="{{ ($route == 'setting.facebook_plugin_setting') ? 'active':'' }}" href="{{ route('setting.facebook_plugin_setting') }}">Facebook Plugin</a>
                         <a class="{{ ($route == 'shipping.index')||($route == 'shipping.create')||($route == 'shipping.edit') ? 'active':'' }}" href="{{ route('shipping.index') }}">Shipping Methods</a>
+                        <a class="{{ ($route == 'order-note.index')||($route == 'order-note.create')||($route == 'order-note.edit') ? 'active':'' }}" href="{{ route('order-note.index') }}">Order Note Status</a>
                         <a class="{{ ($route == 'paymentMethod.config') ? 'active':'' }}" href="{{ route('paymentMethod.config') }}">Payment Methods</a>
                     </div>
                 </li>
