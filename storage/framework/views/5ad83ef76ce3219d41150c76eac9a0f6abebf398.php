@@ -13,6 +13,27 @@
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
 
+
+
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2107914473003438');
+        fbq('track', 'PageView');
+    </script>
+
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2107914473003438&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code -->
+
     <!-- Favicon -->
     <?php
         $logo = get_setting('site_favicon');
@@ -45,7 +66,6 @@
 
     <?php echo $__env->yieldContent('meta'); ?>
     <?php echo $__env->yieldPushContent('css'); ?>
-
     <style>
         .mobile-header-info-wrap {
             border: 1px solid #ddd;
@@ -60,6 +80,66 @@
         .mobile-social-icon h6 {
             padding: 13px;
             padding-bottom: 0;
+        }
+
+        .messenger-btn {
+            display: inline-block;
+            position:relative;
+        }
+
+        .messenger-links {
+        	transform: scale(0);
+        	transform-origin: 100% 50%;
+        	-webkit-transition: all 0.3s;
+        	-o-transition: all 0.3s;
+        	overflow: hidden;
+        	transition: all 0.3s;
+        	z-index: 9999999999999999999999;
+        	position: absolute;
+        	bottom:120%;
+        }
+
+        .messenger-links.show {
+            transform: scale(1);
+        }
+
+        .messenger-links a {
+            /*width: 40px;*/
+            margin-top:5px;
+            display: block;
+            margin-left: 4px;
+        }
+
+        .messenger-btn i {
+            background: #1977f3;
+            display: inline-block;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 100%;
+        }
+          #messenger-links a i {
+            font-size: 25px;
+            border: 1px solid #ddd;
+            padding: 7px;
+            width: 45px;
+            border-radius: 5px;
+            background: #fff;
+            text-align:center;
+        }
+        .messenger-links a .fa-facebook-messenger {
+            color: #6631B3;
+        }
+
+        .messenger-links a .fa-whatsapp {
+            color: #25D366;
+        }
+
+       .messenger {
+        	display: inline-block;
+        	position: fixed;
+        	right: 30px;
+        	bottom: 70px;
         }
     </style>
 </head>
@@ -235,6 +315,16 @@
     <!-- Footer -->
     <?php echo $__env->make('frontend.body.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <!--/ Footer -->
+
+    <div class="messenger">
+        <div title="" class="messenger-btn"><i class="fa-brands fa-rocketchat"></i></div>
+
+        <div id="messenger-links" class="messenger-links">
+            <a title="Whatsapp"  href="https://api.whatsapp.com/send/?phone=8801776633155&text&type=phone_number&app_absent=0" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+
+            <a title="Mobile" href="https://m.me/179071828620201/" target="_blank"><i class="fa-brands fa-facebook-messenger"></i></a>
+        </div>
+    </div>
 
     <!-- Vendor JS-->
     <script src="<?php echo e(asset('frontend/assets/js/vendor/modernizr-3.6.0.min.js')); ?>"></script>
@@ -1267,6 +1357,24 @@
         });
     </script>
 <?php echo $__env->yieldPushContent('footer-script'); ?>
+    <script>
+        var menuBtn = $('.messenger-btn'),
+            menu = $('.messenger-links');
+        menuBtn.on('click', function () {
+            if (menu.hasClass('show')) {
+                menu.removeClass('show');
+            } else {
+                menu.addClass('show');
+            }
+        });
+        $(document).mouseup(function (e) {
+            var div = $('.messenger');
+            if (!div.is(e.target)
+                && div.has(e.target).length === 0) {
+                $('.messenger-links').removeClass('show');
+            }
+        });
+    </script>
 </body>
 </html>
 <?php /**PATH C:\xampp\htdocs\boikhata\resources\views/layouts/frontend.blade.php ENDPATH**/ ?>

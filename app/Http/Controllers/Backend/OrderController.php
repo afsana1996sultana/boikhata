@@ -16,6 +16,7 @@ use App\Models\Upazilla;
 use App\Models\Attribute;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
+use App\Models\Ordernote;
 use App\Models\ProductStock;
 use Illuminate\Http\Request;
 use App\Models\AttributeValue;
@@ -32,165 +33,73 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $date = $request->date;
-        $delivery_status = null;
-        $payment_status = null;
-        $shipping_type = null;
-        $ordersQuery = Order::where('order_by', 0);
-        $dateRange = explode(" - ", $date);
-        $startDate = date('Y-m-d', strtotime($dateRange[0]));
-        if (isset($dateRange[1])) {
-            $endDate = date('Y-m-d', strtotime($dateRange[1]));
-        } else {
-            $endDate = date('Y-m-d');
+        $delivery_status = $request->input('delivery_status');
+        $payment_status = $request->input('payment_status');
+        $note_status = $request->input('note_status');
+        $date_range = $request->input('date_range');
+
+        $orders = Order::query();
+
+        if ($delivery_status) {
+            $orders->where('delivery_status', $delivery_status);
         }
-        if ($request->filled(['delivery_status', 'payment_status', 'date', 'shipping_type'])) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('delivery_status', $request->delivery_status)
-                ->where('payment_status', $request->payment_status)
-                ->where('shipping_type', $request->shipping_type);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('delivery_status', $request->delivery_status)
-                ->where('payment_status', $request->payment_status)
-                ->where('shipping_type', $request->shipping_type);
-            }
-        }elseif ($request->filled(['delivery_status', 'payment_status', 'date']) && $request->shipping_type == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('delivery_status', $request->delivery_status)
-                ->where('payment_status', $request->payment_status);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('delivery_status', $request->delivery_status)
-                ->where('payment_status', $request->payment_status);
-            }
-        } elseif ($request->filled(['delivery_status', 'date', 'shipping_type']) && $request->payment_status == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('delivery_status', $request->delivery_status)
-                ->where('shipping_type', $request->shipping_type);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('delivery_status', $request->delivery_status)
-                ->where('shipping_type', $request->shipping_type);
-            }
-        } elseif ($request->filled(['payment_status', 'date', 'shipping_type']) && $request->delivery_status == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('payment_status', $request->payment_status)
-                ->where('shipping_type', $request->shipping_type);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('payment_status', $request->payment_status)
-                ->where('shipping_type', $request->shipping_type);
-            }
-        } elseif ($request->filled(['delivery_status', 'date']) && $payment_status == null && $shipping_type == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('delivery_status', $request->delivery_status);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('delivery_status', $request->delivery_status);
-            }
-        } elseif ($request->filled(['payment_status', 'date']) && $delivery_status == null && $shipping_type == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('payment_status', $request->payment_status);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('payment_status', $request->payment_status);
-            }
-        } elseif ($request->filled(['shipping_type', 'date']) && $delivery_status == null && $payment_status == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('shipping_type', $request->shipping_type);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('shipping_type', $request->shipping_type);
-            }
-        } elseif ($request->filled(['date']) && $delivery_status == null && $payment_status == null && $shipping_type == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate]);
-            }
-        }else {
-            $ordersQuery->orderBy('id', 'desc');
+        if ($payment_status) {
+            $orders->where('payment_status', $payment_status);
         }
-        //$orderIds = OrderDetail::where('vendor_id', '=', 0)->pluck('order_id')->toArray();
-        //$orders = $ordersQuery->whereIn('id', $orderIds)->orderBy('created_at', 'desc')->paginate(15);
-        $orders = $ordersQuery->orderBy('created_at', 'desc')->paginate(20);
-        return view('backend.sales.all_orders.index', compact('orders', 'delivery_status', 'date', 'payment_status', 'shipping_type'));
+        if ($note_status) {
+            $orders->where('note_status', $note_status);
+        }
+        if ($date_range) {
+            try {
+                $dates = explode(' - ', $date_range);
+                $start_date = \Carbon\Carbon::createFromFormat('Y-m-d h:i A', trim($dates[0]));
+                $end_date = \Carbon\Carbon::createFromFormat('Y-m-d h:i A', trim($dates[1]));
+                $orders->whereBetween('created_at', [$start_date, $end_date]);
+            } catch (\Exception $e) {
+                // Handle invalid date range
+            }
+        }
+
+        $orders = $orders->where('order_by', 0)->paginate(15);
+        $ordernotes = Ordernote::where('status', 1)->get();
+        //dd('Order', $orders);
+        return view('backend.sales.all_orders.index', compact('orders', 'delivery_status', 'payment_status', 'note_status', 'date_range', 'ordernotes'));
     }
 
     public function indexPos(Request $request)
     {
-        $date = $request->date;
-        $delivery_status = null;
-        $payment_status = null;
-        $shipping_type = null;
-        $ordersQuery = Order::where('order_by', 1);
-        $dateRange = explode(" - ", $date);
-        $startDate = date('Y-m-d', strtotime($dateRange[0]));
-        if (isset($dateRange[1])) {
-            $endDate = date('Y-m-d', strtotime($dateRange[1]));
-        } else {
-            $endDate = date('Y-m-d');
-        }
+        $delivery_status = $request->input('delivery_status');
+         $payment_status = $request->input('payment_status');
+         $note_status = $request->input('note_status');
+         $date_range = $request->input('date_range');
 
-        if ($request->filled(['delivery_status', 'payment_status', 'date', 'shipping_type'])) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('delivery_status', $request->delivery_status)
-                ->where('payment_status', $request->payment_status)
-                ->where('shipping_type', $request->shipping_type);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('delivery_status', $request->delivery_status)
-                ->where('payment_status', $request->payment_status)
-                ->where('shipping_type', $request->shipping_type);
-            }
-        }elseif ($request->filled(['delivery_status', 'payment_status', 'date']) && $request->shipping_type == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('delivery_status', $request->delivery_status)
-                ->where('payment_status', $request->payment_status);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('delivery_status', $request->delivery_status)
-                ->where('payment_status', $request->payment_status);
-            }
-        } elseif ($request->filled(['delivery_status', 'date', 'shipping_type']) && $request->payment_status == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('delivery_status', $request->delivery_status)
-                ->where('shipping_type', $request->shipping_type);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('delivery_status', $request->delivery_status)
-                ->where('shipping_type', $request->shipping_type);
-            }
-        } elseif ($request->filled(['payment_status', 'date', 'shipping_type']) && $request->delivery_status == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('payment_status', $request->payment_status)
-                ->where('shipping_type', $request->shipping_type);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('payment_status', $request->payment_status)
-                ->where('shipping_type', $request->shipping_type);
-            }
-        } elseif ($request->filled(['delivery_status', 'date']) && $payment_status == null && $shipping_type == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('delivery_status', $request->delivery_status);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('delivery_status', $request->delivery_status);
-            }
-        } elseif ($request->filled(['payment_status', 'date']) && $delivery_status == null && $shipping_type == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('payment_status', $request->payment_status);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('payment_status', $request->payment_status);
-            }
-        } elseif ($request->filled(['shipping_type', 'date']) && $delivery_status == null && $payment_status == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate)->where('shipping_type', $request->shipping_type);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate])->where('shipping_type', $request->shipping_type);
-            }
-        } elseif ($request->filled(['date']) && $delivery_status == null && $payment_status == null && $shipping_type == null) {
-            if ($startDate === $endDate) {
-                $ordersQuery->whereDate('created_at', $startDate);
-            } else {
-                $ordersQuery->whereBetween('created_at', [$startDate, $endDate]);
-            }
-        }else {
-            $ordersQuery->orderBy('id', 'desc');
-        }
-        $orders = $ordersQuery->orderBy('created_at', 'desc')->paginate(15);
-       //return $orders;
-       return view('backend.sales.all_orders.posOrder', compact('orders', 'delivery_status', 'date','payment_status','shipping_type'));
+         $orders = Order::query();
+
+         if ($delivery_status) {
+             $orders->where('delivery_status', $delivery_status);
+         }
+         if ($payment_status) {
+             $orders->where('payment_status', $payment_status);
+         }
+         if ($note_status) {
+             $orders->where('note_status', $note_status);
+         }
+         if ($date_range) {
+             try {
+                 $dates = explode(' - ', $date_range);
+                 $start_date = \Carbon\Carbon::createFromFormat('Y-m-d h:i A', trim($dates[0]));
+                 $end_date = \Carbon\Carbon::createFromFormat('Y-m-d h:i A', trim($dates[1]));
+                 $orders->whereBetween('created_at', [$start_date, $end_date]);
+             } catch (\Exception $e) {
+                 // Handle invalid date range
+             }
+         }
+
+        $orders = $orders->where('order_by', 1)->paginate(15);
+        $ordernotes = Ordernote::where('status', 1)->get();
+       return view('backend.sales.all_orders.posOrder', compact('orders', 'delivery_status', 'payment_status', 'note_status', 'date_range', 'ordernotes'));
     }
+
     public function AllvendorSellView(Request $request)
     {
         $date = $request->date;
@@ -354,14 +263,14 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $shippings = Shipping::where('status', 1)->get();
+        $ordernotes = Ordernote::where('status', 1)->get();
         $products=Product::get();
         $productadd = Product::find($request->product_id);
-        return view('backend.sales.all_orders.show', compact('order', 'shippings','products','productadd'));
+        return view('backend.sales.all_orders.show', compact('order', 'shippings', 'ordernotes', 'products','productadd'));
     }
+
     public function orderCancle($id)
     {
-
-
         $order = Order::findOrFail($id);
         $orderdetails = OrderDetail::where('order_id',$order->id);
         $shippings = Shipping::where('status', 1)->get();
@@ -463,6 +372,21 @@ class OrderController extends Controller
         ]);
 
         return response()->json(['success'=> 'Delivery status has been updated']);
+    }
+
+    /*================= Start update_note_status Methoed ================*/
+    public function update_note_status(Request $request)
+    {
+        $order = Order::findOrFail($request->order_id);
+        $order->note_status = $request->status;
+        $order->save();
+
+        $order_detail = OrderDetail::where('order_id', $order->id)->get();
+        foreach($order_detail as $item){
+            $item->note_status = $request->status;
+            $item->save();
+        }
+        return response()->json(['success'=> 'Note status has been updated']);
 
     }
 
@@ -486,12 +410,6 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
-    /* ============= Start getdivision Method ============== */
-    // public function getdivision($division_id){
-    //     $division = District::where('division_id', $division_id)->orderBy('district_name_en','ASC')->get();
-
-    //     return json_encode($division);
-    // }
     /* ============= End getdivision Method ============== */
 
     /* ============= Start getupazilla Method ============== */
@@ -512,7 +430,6 @@ class OrderController extends Controller
 
     /* ============= End invoice_download Method ============== */
     public function invoice_print_download($id){
-        //dd($id);
         $order = Order::findOrFail($id);
         return view('backend.invoices.invoice_print', compact('order'));
     } // end method
@@ -649,7 +566,7 @@ class OrderController extends Controller
         $product->update();
         $order->sub_total=($order->sub_total - ($Price * $orderdetail->qty));
         $order->grand_total=($order->grand_total - ($Price * $orderdetail->qty));
-        $order->totalbuyingPrice=($order->totalbuyingPrice - ($buyingPrice * $orderdetail->qty));
+        $order->pur_sub_total=($order->pur_sub_total - ($buyingPrice * $orderdetail->qty));
         $order->update();
         $orderdetail->delete();
         $notification = array(
@@ -724,8 +641,6 @@ class OrderController extends Controller
     public function update(Request $request, $id)
         {
            $order = Order::findOrFail($id);
-           dd($order);
-           $order->division_id = $request->division_id ?? '';
            $order->district_id = $request->district_id ?? '';
            $order->upazilla_id = $request->upazilla_id ?? '';
            $order->address = $request->address;
@@ -800,16 +715,9 @@ class OrderController extends Controller
            }
             $order->grand_total=$grandof;
             $order->sub_total=$request->sub_total;
-            $order->totalbuyingPrice=$request->totalbuyingPrice;
+            $order->pur_sub_total=$request->pur_sub_total;
             $order->discount=$request->discount;
             $order->update();
-            // $address=Address::where('user_id',$order->user_id)->first();
-            // dd($address);
-            // $address->division_id = $request->division_id ?? '';
-            // $address->district_id = $request->district_id ?? '';
-            // $address->upazilla_id = $request->upazilla_id ?? '';
-            // $address->address = $request->address;
-            // $address->update();
             $user=User::where('id',$order->user_id)->first();
             $user->address = $request->address;
             $user->update();
@@ -937,7 +845,7 @@ class OrderController extends Controller
                 $productadd->save();
                 $orderUpdate->sub_total=$orderUpdate->sub_total+$Price;
                 $orderUpdate->grand_total=$orderUpdate->grand_total+$Price;
-                $orderUpdate->totalbuyingPrice=$orderUpdate->totalbuyingPrice+$buyprice;
+                $orderUpdate->pur_sub_total=$orderUpdate->pur_sub_total+$buyprice;
                 $orderUpdate->save();
                 return response()->json([ 'status' => 'success',  'message' => "Product added To Order Successfully",]);
         }

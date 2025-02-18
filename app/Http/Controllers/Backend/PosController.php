@@ -458,6 +458,7 @@ class PosController extends Controller
             'payment_status'    => $payment,
             'invoice_no'        => $invoice_no,
             'delivery_status'   => 'pending',
+            'note_status'       => 'Pending',
             'name'              => $user_name,
             'phone'             => $user_phone,
             'email'             => $user_email,
@@ -602,6 +603,13 @@ class PosController extends Controller
             $ledger->balance = get_account_balance() + $order->grand_total;
             $ledger->save();
         }
+        $amount = 0;
+        foreach($order->order_details as $order_detail){
+            $product_purchase_price = $order_detail->product->purchase_price;
+            $amount+=$product_purchase_price;
+        }
+        $order->pur_sub_total = $amount;
+        $order->save();
         $alert = ['success', 'Order Complete Successfully'];
         return redirect()->back()->withAlert($alert);
     }
@@ -681,16 +689,7 @@ class PosController extends Controller
                 return back()->withAlert($alert);
             }
         }
-        $now = now();
-        $oldOrder = Order::where('user_id', $customer)->get();
-        if ($oldOrder) {
-            foreach ($oldOrder as $item) {
-                if ($item->delivery_status == 'pending' || $item->delivery_status == 'holding' || $item->delivery_status == 'processing') {
-                    $alert = ['danger', 'Please Confirm Your Previous Order Should be Shipped.'];
-                    return back()->withAlert($alert);
-                }
-            }
-        }
+
         $order = Order::create([
             'user_id'           => $customer,
             'staff_id'          => $request->staff_id,
@@ -705,6 +704,7 @@ class PosController extends Controller
             'payment_status'    => $payment,
             'invoice_no'        => $invoice_no,
             'delivery_status'   => 'pending',
+            'note_status'       => 'Pending',
             'name'              => $user_name,
             'phone'             => $user_phone,
             'email'             => $user_email,
@@ -847,6 +847,13 @@ class PosController extends Controller
             $ledger->balance = get_account_balance() + $order->grand_total;
             $ledger->save();
         }
+        $amount = 0;
+        foreach($order->order_details as $order_detail){
+            $product_purchase_price = $order_detail->product->purchase_price;
+            $amount+=$product_purchase_price;
+        }
+        $order->pur_sub_total = $amount;
+        $order->save();
         $alert = ['success', 'Order Complete Successfully'];
         return redirect()->route('print.invoice.download', compact('order'))->with('_blank', true)->withAlert($alert);
     }

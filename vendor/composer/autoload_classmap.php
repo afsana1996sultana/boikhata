@@ -110,6 +110,7 @@ return array(
     'App\\Models\\OrderDetail' => $baseDir . '/app/Models/OrderDetail.php',
     'App\\Models\\OrderPayment' => $baseDir . '/app/Models/OrderPayment.php',
     'App\\Models\\OrderStatus' => $baseDir . '/app/Models/OrderStatus.php',
+    'App\\Models\\Ordernote' => $baseDir . '/app/Models/Ordernote.php',
     'App\\Models\\Page' => $baseDir . '/app/Models/Page.php',
     'App\\Models\\PaymentMethod' => $baseDir . '/app/Models/PaymentMethod.php',
     'App\\Models\\PosCart' => $baseDir . '/app/Models/PosCart.php',

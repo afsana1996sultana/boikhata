@@ -29,14 +29,17 @@
                         </div>
                         <div class="col-md-2 mt-2">
                             <div class="custom_select">
-                               <select class=" select-active select-nice form-select d-inline-block mb-lg-0 mr-5 mw-200" name="shipping_type" id="shipping_type">
-                                    <option value="" selected="">Shipping Type</option>
-                                    <option value="1" @if ($shipping_type == '1') selected @endif>Inside Dhaka (Redex)</option>
-                                    <option value="2" @if ($shipping_type == '2') selected @endif>Outside Dhaka (Sundarban Courier )</option>
-                                    <option value="3" @if ($shipping_type == '3') selected @endif>Outside Dhaka City (Pathao)</option>
+                                <select class=" select-active select-nice form-select d-inline-block mb-lg-0 mr-5 mw-200" name="note_status" id="note_status">
+                                    <option value="" selected="">Note Status</option>
+                                    @foreach($ordernotes as $ordernote)
+                                        <option value="{{ $ordernote->name }}" @if($note_status == $ordernote->name) selected @endif>
+                                            {{ $ordernote->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-md-2 mt-2">
                             <div class="custom_select">
                                 <select class="form-select d-inline-block select-active select-nice mb-lg-0 mr-5 mw-200" name="delivery_status" id="delivery_status">
@@ -52,7 +55,7 @@
                         </div>
                         <div class="col-md-2 mt-2">
                             <div class="custom_select">
-                               <select class=" select-active select-nice form-select d-inline-block mb-lg-0 mr-5 mw-200" name="payment_status" id="payment_status">
+                                <select class=" select-active select-nice form-select d-inline-block mb-lg-0 mr-5 mw-200" name="payment_status" id="payment_status">
                                     <option value="" selected="">Payment Status</option>
                                     <option value="unpaid" @if ($payment_status == 'unpaid') selected @endif>Unpaid</option>
                                     <option value="paid" @if ($payment_status == 'paid') selected @endif>Paid</option>
@@ -61,7 +64,7 @@
                         </div>
                         <div class="col-md-2 mt-2">
                             <div class="custom_select">
-                                <input type="text" id="reportrange" class="form-control" name="date" placeholder="Filter by date" data-format="DD-MM-Y" value="Filter by date" data-separator=" - " autocomplete="off">
+                                <input type="text" name="date_range" class="form-control" placeholder="Select date" id="date" value="">
                             </div>
                         </div>
                         <div class="col-md-2 mt-2">
@@ -78,17 +81,16 @@
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="select_all_ids"></th>
-                                    <th>No.</th>
                                     <th>Order Code</th>
                                     <th>Customer name</th>
                                     <th>Customer Phone</th>
-                                    <th>Order Description</th>
-                                    <th class="text-center">Amount</th>
-                                    <th class="text-center">Paid Amount</th>
-                                    <th class="text-center">Shipping Type</th>
-                                    <th class="text-center">Shipping Address</th>
-                                    <th class="text-center">Delivery Status</th>
-                                    <th class="text-center">Payment Status</th>
+                                    <th>Amount</th>
+                                    <th>Profit</th>
+                                    <th>Shipping</th>
+                                    <th>Delivery Status</th>
+                                    <th>Payment Status</th>
+                                    <th>Note Status</th>
+                                    <th>Created Date</th>
                                     <th class="text-end">Options</th>
                                 </tr>
                             </thead>
@@ -100,102 +102,60 @@
                                     @else
                                         <td><input type="checkbox" class="check_ids" name="ids" value="{{$order->id}}"></td>
                                     @endif
-                                    <td>{{ $key+1 }}</td>
                                     <td>{{ $order->invoice_no }}</td>
-                                    <td><b>{{ $order->name }}</b></td>
-                                    <td>{{ $order->phone }}</td>
-                                    <td class="text-center">
-                                        @foreach ($order->order_details as $object )
-                                            {{ Str::limit($object->product_name, 30) }}
-                                            @if (!$loop->last) ,@endif
-                                        @endforeach
-                                    </td>
-                                    <td class="text-center">{{ $order->grand_total }} TK</td>
-                                    <td class="text-center">
-                                        @if($order->payment_method == 'cod')
-                                            {{ $order->grand_total }} TK
-                                        @else
-                                            {{ $order->paid_amount }} TK
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if($order->shipping_type == 1)
-                                            Inside Dhaka
-                                        @elseif($order->shipping_type == 2)
-                                            Outside Dhaka
-                                        @else
-                                            Outside Dhaka City
-                                        @endif
-                                        ({{ $order->shipping_name }})
-                                    </td>
-
+                                    <td><b>{{ $order->name ?? '' }}</b></td>
+                                    <td>{{ $order->phone ?? 'No Phone'}}</td>
+                                    <td>{{ $order->grand_total }} TK</td>
+                                    <td>{{ $order->grand_total - ($order->shipping_charge + $order->pur_sub_total) }}</td>
+                                    <td>{{ $order->shipping_charge }}</td>
                                     <td>
                                         @php
-                                            $address = App\Models\Address::where('user_id', $order->id)->first();
-                                            if($address){
-                                                $district=App\Models\District::where('id',$address->district_id)->first();
-                                                $upazilla=App\Models\Upazilla::where('id',$address->upazilla_id)->first();
+                                            $status = $order->delivery_status;
+                                            if($order->delivery_status == 'cancelled') {
+                                                $status = '<span class="badge rounded-pill alert-danger">Cancelled</span>';
+                                            } elseif($order->delivery_status == 'pending') {
+                                                $status = '<span class="text-danger">Pending</span>';
                                             }
                                         @endphp
-                                        {{ isset($order->address) ? ucwords($order->address . ',') : '' }}
-                                        {{ isset($order->upazilla->name_en) ? ucwords($order->upazilla->name_en . ',') : '' }}
-                                        {{ isset($order->district->district_name_en) ? ucwords($order->district->district_name_en . ',') : '' }}
-                                    </td>
-                                    <td class="text-center">
-                                    	@php
-			                                $status = $order->delivery_status;
-			                                if($order->delivery_status == 'cancelled') {
-			                                    $status = '<span class="badge rounded-pill alert-danger">cancelled</span>';
-			                                }
-			                            @endphp
-			                            {!! $status !!}
-                                    </td>
-                                    <td class="text-center">
-                                        @php
-			                                $status = $order->payment_status;
-			                                if($order->payment_status =='unpaid') {
-			                                    $status = '<span class="badge rounded-pill alert-danger">Unpaid</span>';
-			                                }
-                                            elseif($order->payment_status =='paid') {
-			                                    $status = '<span class="badge rounded-pill alert-success">Paid</span>';
-			                                }
-			                            @endphp
                                         {!! $status !!}
                                     </td>
+                                    <td>
+                                        @php
+                                            $status = $order->payment_status;
+                                            if($order->payment_status == 'unpaid') {
+                                                $status = '<span class="badge rounded-pill alert-danger">Unpaid</span>';
+                                            }
+                                            elseif($order->payment_status == 'paid') {
+                                                $status = '<span class="badge rounded-pill alert-success">Paid</span>';
+                                            }
+
+                                        @endphp
+                                        {!! $status !!}
+                                    </td>
+                                    <td>{{ $order->note_status }}</td>
+                                    <td>{{ $order->created_at ? $order->created_at->format('Y-m-d g:i:s A') : '' }}</td>
                                     <td class="text-center">
-                                        @if($order->packaging_status == 1)
-                                            <a   @disabled(true) >
-                                                <i class="fa-solid fa-gift" style="color:rgb(2, 68, 210)"></i>
-                                            </a>
-                                        @endif
                                         <div class="dropdown">
-                                                <a  type="button" class="btn btn-block" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fa fa-ellipsis-v"></i>
-                                                </a>
-                                                <ul class="dropdown-menu order__action" aria-labelledby="dropdownMenuButton">
+                                            <a  type="button" class="btn btn-block" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                            </a>
+                                            <ul class="dropdown-menu order__action" aria-labelledby="dropdownMenuButton">
+                                                <li>
+                                                    <a class="dropdown-item" target="blank" href="{{route('print.invoice.download',$order->id) }}"><i class="fa-solid fa-print" style="color:#3BB77E"></i>Invoice Print</a>
+                                                </li>
+                                                @if(Auth::guard('admin')->user()->role == '1' || in_array('18', json_decode(Auth::guard('admin')->user()->staff->role->permissions)))
                                                     <li>
-                                                        @if($order->packaging_status == 0)
-                                                            <a  class=" dropdown-item" href="{{route('packages.status',$order->id) }}">
-                                                                <i class="fa-solid fa-gift" style="color:#3BB77E"></i>Add Package
-                                                            </a>
-                                                        @endif
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" target="blank" href="{{route('print.invoice.download',$order->id) }}"><i class="fa-solid fa-print" style="color:#3BB77E"></i>Invoice Print</a>
-                                                    </li>
-                                                    @if(Auth::guard('admin')->user()->role == '1' || in_array('18', json_decode(Auth::guard('admin')->user()->staff->role->permissions)))
-                                                        <li>
-                                                            <a  target="_blank" class="dropdown-item" href="{{route('all_orders.show',$order->id) }}">
-                                                                <i class="fa-solid fa-eye" style="color:#3BB77E"></i>Details
-                                                            </a>
-                                                        </li>
-                                                    @endif
-                                                    <li>
-                                                        <a title="Download" href="{{ route('invoice.download', $order->id) }}" class="dropdown-item">
-                                                            <i class="fa-solid fa-download" style="color:#3BB77E"></i> Invoice Download
+                                                        <a  target="_blank" class="dropdown-item" href="{{route('all_orders.show',$order->id) }}">
+                                                            <i class="fa-solid fa-eye" style="color:#3BB77E"></i>Details
                                                         </a>
                                                     </li>
-                                                </ul>
+                                                @endif
+                                                <li>
+                                                    <a title="Download" href="{{ route('invoice.download', $order->id) }}" class="dropdown-item">
+                                                        <i class="fa-solid fa-download" style="color:#3BB77E"></i> Invoice Download
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </td>
                                 </tr>
@@ -216,34 +176,13 @@
 @push('footer-script')
 <script type="text/javascript">
     $(function() {
-        var start = moment();
-        var end = moment();
-
-        $('input[name="date"]').daterangepicker({
-            autoUpdateInput: false,
+        $('input[name="date_range"]').daterangepicker({
+            timePicker: true,
+            timePicker24Hour: false,
             locale: {
-                cancelLabel: 'Clear'
+                format: 'YYYY-MM-DD h:mm A'
             }
         });
-
-        function cb(start, end) {
-            $('#reportrange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-
-        $('#reportrange').daterangepicker({
-            startDate: start,
-            endDate: end,
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            }
-        }, cb);
-
-        cb(start, end);
     });
 </script>
 <script>
@@ -322,5 +261,4 @@ $(function(e) {
 });
 </script>
 @endpush
-
 @endsection

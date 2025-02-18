@@ -69,13 +69,6 @@ class CheckoutController extends Controller
     } //end method
     /* ============= End GetCheckoutProduct Method ============== */
 
-    /* ============= Start getdivision Method ============== */
-    // public function getdivision($division_id){
-    // $division = District::where('division_id', $division_id)->orderBy('district_name_en','ASC')->get();
-
-    //     return json_encode($division);
-    // }
-    /* ============= End getdivision Method ============== */
 
     /* ============= Start getupazilla Method ============== */
     public function getupazilla($district_id){
@@ -158,6 +151,7 @@ class CheckoutController extends Controller
             'payment_status' => $payment_status,
             'invoice_no' => $invoice_no,
             'delivery_status' => 'pending',
+            'note_status' => 'Pending',
             'phone' => $request->phone,
             'email' => $request->email,
             'division_id' => $request->division_id,
@@ -278,13 +272,12 @@ class CheckoutController extends Controller
         ]);
         $ledger->balance = get_account_balance() + $order->grand_total;
         $ledger->save();
-
         $amount = 0;
-
         foreach ($order->order_details as $order_detail) {
+            $product_purchase_price = $order_detail->product->purchase_price;
             $amount += $order_detail->product->purchase_price;
         }
-        $order->totalbuyingPrice = $amount;
+        $order->pur_sub_total = $amount;
         $order->save();
         $notification = array(
             'message' => 'Your order has been placed successfully.',
@@ -357,7 +350,13 @@ class CheckoutController extends Controller
         $payment_method = $request->payment_option;
         $total_amount = $request->grand_total;
         $last_order = Order::orderBy('id','DESC')->first();
-        $order_id = $last_order->id+1;
+        if($last_order){
+            $order_id = $last_order->id+1;
+        }
+        else{
+            $order_id = 1;
+        }
+        
         $invoice_no = date('YmdHis') . rand(10, 99);
         Session::put('invoice_no', $invoice_no);
 

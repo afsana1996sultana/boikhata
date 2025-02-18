@@ -291,12 +291,6 @@ if (!function_exists('getMaintenance')) {
     }
 }
 
-// if (!function_exists('formatNumberInBengali')) {
-//     function formatNumberInBengali($number) {
-//         $fmt = new \NumberFormatter('bn_BD', \NumberFormatter::DECIMAL);
-//         return $fmt->format($number);
-//     }
-// }
 
 if (!function_exists('formatNumberInBengali')) {
     function formatNumberInBengali($number) {

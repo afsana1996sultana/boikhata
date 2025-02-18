@@ -532,16 +532,15 @@
             </div>
         @endif
 
-
         <div class="card mb-4">
             <header class="card-header">
-                <h2 class="text-white">All History</h2>
+                <h2 class="text-white">Order History</h2>
             </header>
-            <div class="card-body">
-                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
+            <div class="chart-container">
+                <canvas id="chart"></canvas>
             </div>
         </div>
-
     </section>
 
     <!-- Modal -->
@@ -578,14 +577,55 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
 @push('footer-script')
-    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+<script type="text/javascript">
+    var orderData = @json($orderData);
+
+    var labels = orderData.map(data => data.upazilla_name);
+    var orderCounts = orderData.map(data => data.order_count);
+
+    var data = {
+        labels: labels,
+        datasets: [{
+            label: "Area wise Order List",
+            backgroundColor: "rgba(54, 162, 235, 0.2)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 2,
+            hoverBackgroundColor: "rgba(54, 162, 235, 0.4)",
+            hoverBorderColor: "rgba(54, 162, 235, 1)",
+            data: orderCounts,
+        }]
+    };
+
+    var options = {
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                stacked: true,
+                grid: {
+                    display: true,
+                    color: "rgba(54, 162, 235, 0.2)"
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                }
+            }
+        }
+    };
+
+    new Chart('chart', {
+        type: 'bar',
+        options: options,
+        data: data
+    });
+</script>
 @endpush
