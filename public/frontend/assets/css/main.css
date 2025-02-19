@@ -1071,7 +1071,7 @@ button.submit,
 button[type="submit"] {
     font-size: 16px;
     font-weight: 500;
-    /*padding: 15px 40px;*/
+    padding: 15px 40px;
     color: #ffffff;
     border: none;
     background-color: #000;
@@ -1081,7 +1081,7 @@ button[type="submit"] {
 
 button.submit:hover,
 button[type="submit"]:hover {
-    background-color: #000 !important;
+    background-color: #4398fe !important;
 }
 
 .btn-brand:hover {
